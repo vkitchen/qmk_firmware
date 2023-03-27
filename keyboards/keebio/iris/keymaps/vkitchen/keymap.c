@@ -95,6 +95,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
       break;
     case KC_LSFT:
+    case KC_RSFT:
       if (record->event.pressed) {
         layer_on(_SHIFTED);
       } else {
@@ -130,11 +131,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
       break;
   }
+  /* Doesn't support key repetion or both shifts simultaneously */
   if (layer_state_is(_SHIFTED) && record->event.pressed) {
     if ((KC_1 <= keycode && keycode <= KC_0) || keycode == KC_GRV) {
-      unregister_code(KC_LSFT);
-      tap_code(keycode);
-      register_code(KC_LSFT);
+      if ((get_mods() & MOD_BIT(KC_LSHIFT)) == MOD_BIT(KC_LSFT)) {
+        unregister_code(KC_LSFT);
+        tap_code(keycode);
+        register_code(KC_LSFT);
+      } else {
+        unregister_code(KC_RSFT);
+        tap_code(keycode);
+        register_code(KC_RSFT);
+      }
       return false;
     }
   }
