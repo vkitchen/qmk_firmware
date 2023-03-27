@@ -7,7 +7,7 @@
 #define _ADJUST 3
 
 enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
+  APT = SAFE_RANGE,
   LOWER,
   RAISE,
   ADJUST,
@@ -74,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case QWERTY:
+    case APT:
       if (record->event.pressed) {
         set_single_persistent_default_layer(_APT);
       }
